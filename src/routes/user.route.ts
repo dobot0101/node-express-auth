@@ -1,5 +1,7 @@
 import express from 'express';
 import { UserService } from '../services/user.service';
+import jwt from 'jsonwebtoken';
+
 const router = express.Router();
 
 const userService = new UserService();
@@ -49,8 +51,13 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await userService.login(email, password);
-    console.log(user);
-    res.status(200).json({ user });
+
+    const jwtSecret = process.env.JWT_SECRET || 'funnynode';
+    const token = jwt.sign({ email, password }, jwtSecret, {
+      expiresIn: 30,
+    });
+
+    res.status(200).json({ user, token });
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json({ error: error.message });

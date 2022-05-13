@@ -1,5 +1,6 @@
 import express from 'express';
 import { nextTick } from 'process';
+import { verifyToken } from './middleware/auth';
 
 import user from './routes/user.route';
 
@@ -16,7 +17,9 @@ app.use('/', (req, res, next) => {
 
 app.get(
   '/',
-  (req, res, next) => {
+  verifyToken,
+  (req: any, res, next) => {
+    console.log(req.decoded);
     console.log('Hello World!');
     next();
   },

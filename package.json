@@ -1,5 +1,5 @@
 {
-  "name": "node-aith",
+  "name": "node-auth",
   "version": "1.0.0",
   "description": "study authentication using node express",
   "main": "app.js",
